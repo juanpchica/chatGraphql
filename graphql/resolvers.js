@@ -1,5 +1,6 @@
 const { User } = require("../models");
 const bcrypt = require("bcryptjs");
+const { UserInputError } = require("apollo-server-errors");
 module.exports = {
   Query: {
     getUsers: async () => {
@@ -21,7 +22,7 @@ module.exports = {
       let errors = {};
 
       try {
-        //TODO: Validate not empty fields
+        // Validate not empty fields
         if (email.trim() === "") errors.email = "email must not be empty";
         if (username.trim() === "")
           errors.username = "username must not be empty";
@@ -33,7 +34,12 @@ module.exports = {
         if (password !== confirmPassword)
           errors.confirmPassword = "passwords must match";
 
-        //TODO: Validate if username / email exists
+        // Validate if username / email exists
+        // const userByUsername = await User.findOne({ where: { username } });
+        // const userByEmail = await User.findOne({ where: { email } });
+
+        // if (userByUsername) errors.username = "Username is already taken";
+        // if (userByEmail) errors.email = "Email is already taken";
 
         if (Object.keys(errors).length > 0) {
           throw errors;
@@ -49,7 +55,12 @@ module.exports = {
 
         return user;
       } catch (error) {
-        console.log(error);
+        if (error.name === "SequelizeUniqueConstraintError") {
+          error.errors.forEach((e) => {
+            errors[e.path] = `${e.path} is already takend`;
+          });
+        }
+        throw new UserInputError("Input Error", { errors });
       }
     },
   },
