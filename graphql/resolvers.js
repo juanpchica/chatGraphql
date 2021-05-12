@@ -18,18 +18,39 @@ module.exports = {
       _,
       { registerInput: { username, email, password, confirmPassword } }
     ) => {
-      //TODO: Validate not empty fields
-      //TODO: Validate if username / email exists
+      let errors = {};
 
-      //TODO: Hash password
-      password = await bcrypt.hash(password, 12);
+      try {
+        //TODO: Validate not empty fields
+        if (email.trim() === "") errors.email = "email must not be empty";
+        if (username.trim() === "")
+          errors.username = "username must not be empty";
+        if (password.trim() === "")
+          errors.password = "password must not be empty";
+        if (confirmPassword.trim() === "")
+          errors.confirmPassword = "repeat password must not be empty";
 
-      //TODO: Create user
-      const user = await User.create({ username, email, password });
+        if (password !== confirmPassword)
+          errors.confirmPassword = "passwords must match";
 
-      //TODO: Return User
+        //TODO: Validate if username / email exists
 
-      return user;
+        if (Object.keys(errors).length > 0) {
+          throw errors;
+        }
+
+        // Hash password
+        password = await bcrypt.hash(password, 12);
+
+        // Create user
+        const user = await User.create({ username, email, password });
+
+        // Return User
+
+        return user;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
