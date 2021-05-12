@@ -1,5 +1,7 @@
 const { User } = require("../models");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const { UserInputError, AuthenticationError } = require("apollo-server-errors");
 module.exports = {
   Query: {
@@ -27,10 +29,10 @@ module.exports = {
         }
 
         // Validate if user exist
-        const user = User.findOne({ where: { username } });
+        const user = await User.findOne({ where: { username } });
         if (!user) {
           errors.username = "User not found";
-          throw new AuthenticationError("User not found!", { errors });
+          throw new UserInputError("User not found!", { errors });
         }
 
         // Validate if password is correct
@@ -39,6 +41,12 @@ module.exports = {
           errors.password = "Password Incorrect!";
           throw new AuthenticationError("Password Incorrect!", { errors });
         }
+
+        //Create a jwt for the user
+        const token = jwt.sign({ username }, process.env.SECRET_KEY, {
+          expiresIn: "1h",
+        });
+        user.token = token;
 
         return user;
       } catch (error) {
