@@ -46,9 +46,12 @@ module.exports = {
         const token = jwt.sign({ username }, process.env.SECRET_KEY, {
           expiresIn: "1h",
         });
-        user.token = token;
 
-        return user;
+        return {
+          ...user.toJSON(),
+          token,
+          createdAt: user.createdAt.toISOString(),
+        };
       } catch (error) {
         console.log(error);
         throw error;
