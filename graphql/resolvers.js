@@ -11,4 +11,21 @@ module.exports = {
       }
     },
   },
+
+  Mutation: {
+    //Function register for user
+    register: async (
+      _,
+      { registerInput: { username, email, password, confirmPassword } }
+    ) => {
+      //TODO: Validate not empty fields
+      //TODO: Validate if username / email exists
+      //TODO: Create user
+      const user = await User.create({ username, email, password });
+
+      //TODO: Return User
+
+      return user;
+    },
+  },
 };
