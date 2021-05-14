@@ -1,16 +1,17 @@
 import React from "react";
-import { Route, Router } from "react-router";
+import { Redirect, Route } from "react-router";
 import { useAuthState } from "../context/auth";
 
 const DynamicRouter = (props) => {
   const { user } = useAuthState();
-  if (!user) {
-    Router.push("/login");
-  }
 
-  return (
-    <Route exact={props.exact} path={props.path} component={props.component} />
-  );
+  if (props.authenticated && !user) {
+    return <Redirect to='/login' />;
+  } else if (props.guest && user) {
+    return <Redirect to='/' />;
+  } else {
+    return <Route {...props} />;
+  }
 };
 
 export default DynamicRouter;
