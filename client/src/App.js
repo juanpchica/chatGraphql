@@ -7,21 +7,24 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 import "./App.scss";
+import { AuthProvider } from "./context/auth";
 
 function App() {
   return (
     <ApolloProvide>
-      <Container className='pt-5'>
-        <BrowserRouter>
-          <Container className='pt-5'>
-            <Switch>
-              <Route exact path='/' component={Home} />
-              <Route path='/register' component={Register} />
-              <Route path='/login' component={Login} />
-            </Switch>
-          </Container>
-        </BrowserRouter>
-      </Container>
+      <AuthProvider>
+        <Container className='pt-5'>
+          <BrowserRouter>
+            <Container className='pt-5'>
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <Route path='/register' component={Register} />
+                <Route path='/login' component={Login} />
+              </Switch>
+            </Container>
+          </BrowserRouter>
+        </Container>
+      </AuthProvider>
     </ApolloProvide>
   );
 }
