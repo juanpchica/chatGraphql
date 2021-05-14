@@ -7,6 +7,13 @@ module.exports = gql`
     token: String
     createdAt: String!
   }
+  type Message {
+    to: String!
+    uuid: String!
+    from: String!
+    content: String!
+    createdAt: String!
+  }
   input RegisterInput {
     username: String!
     email: String!
@@ -20,5 +27,6 @@ module.exports = gql`
 
   type Mutation {
     register(registerInput: RegisterInput): User!
+    sendMessage(to: String, content: String): Message!
   }
 `;
