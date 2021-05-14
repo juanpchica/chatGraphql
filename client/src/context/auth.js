@@ -12,7 +12,7 @@ const token = localStorage.getItem("token");
 if (token) {
   const decodedToken = jwtDecode(token);
   if (new Date() > new Date(decodedToken.exp * 1000)) {
-    localStorage.deleteItem("token");
+    localStorage.removeItem("token");
   } else {
     user = decodedToken;
   }
@@ -29,7 +29,7 @@ const authReduce = (state, action) => {
         user: action.payload,
       };
     case "LOGOUT":
-      localStorage.deleteItem("token");
+      localStorage.removeItem("token");
       return {
         ...state,
         user: null,
