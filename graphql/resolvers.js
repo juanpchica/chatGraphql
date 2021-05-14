@@ -59,7 +59,7 @@ module.exports = {
         const correctPassword = await bcrypt.compare(password, user.password);
         if (!correctPassword) {
           errors.password = "Password Incorrect!";
-          throw new AuthenticationError("Password Incorrect!", { errors });
+          throw new UserInputError("Password Incorrect!", { errors });
         }
 
         //Create a jwt for the user
