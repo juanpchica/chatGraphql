@@ -100,7 +100,9 @@ export default function Home({ history }) {
         </Button>
       </Row>
       <Row className='bg-white'>
-        <Col xs={4}>{usersMarkup}</Col>
+        <Col xs={4} className='p-0 bg-secondary'>
+          {usersMarkup}
+        </Col>
         <Col xs={8}>
           {messagesData && messagesData.getMessages.length > 0 ? (
             messagesData.getMessages.map((message) => (
