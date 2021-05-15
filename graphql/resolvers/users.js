@@ -1,4 +1,4 @@
-const { User } = require("../../models");
+const { User, Message } = require("../../models");
 
 const { UserInputError, AuthenticationError } = require("apollo-server-errors");
 const bcrypt = require("bcryptjs");
@@ -14,8 +14,23 @@ module.exports = {
         //Context checking
 
         //Get all users but not the one who is logged in
-        const users = await User.findAll({
+        let users = await User.findAll({
           where: { username: { [Op.ne]: user.username } },
+        });
+
+        const allUserMessages = await Message.findAll({
+          where: {
+            [Op.or]: [{ from: user.username }, { to: user.username }],
+          },
+          order: [["createdAt", "DESC"]],
+        });
+
+        users = users.map((otherUser) => {
+          const latestMessage = allUserMessages.find(
+            (m) => m.from === otherUser.username || m.to === otherUser.username
+          );
+          otherUser.latestMessage = latestMessage;
+          return otherUser;
         });
 
         return users;

@@ -2,10 +2,12 @@ const { gql } = require("apollo-server");
 
 module.exports = gql`
   type User {
-    email: String!
+    email: String
     username: String!
     token: String
     createdAt: String!
+    latestMessage: Message
+    imageUrl: String!
   }
   type Message {
     to: String!
