@@ -55,11 +55,9 @@ const Users = ({ setSelectedUser }) => {
   }
 
   return (
-    <div>
-      <Col xs={4} className='p-0 bg-secondary'>
-        {usersMarkup}
-      </Col>
-    </div>
+    <Col xs={4} className='p-0 bg-secondary'>
+      {usersMarkup}
+    </Col>
   );
 };
 

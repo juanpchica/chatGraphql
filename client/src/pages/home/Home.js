@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useAuthDispatch } from "../../context/auth";
 
-import { Users } from "./Users";
+import Users from "./Users";
 
 const GET_MESSAGES = gql`
   query getMessages($from: String!) {
@@ -28,7 +28,7 @@ export default function Home({ history }) {
   };
 
   //Messages part
-  const [getMessages, { loading: messagesLoading, data: messagesData }] =
+  const [getMessages, { loading, data: messagesData }] =
     useLazyQuery(GET_MESSAGES);
 
   useEffect(() => {
