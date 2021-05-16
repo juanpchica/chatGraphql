@@ -2,6 +2,8 @@ import React from "react";
 import { Col, Image } from "react-bootstrap";
 import { gql, useQuery } from "@apollo/client";
 
+import { useMessageDispatch, useMessageState } from "../../context/message";
+
 const GET_USERS = gql`
   query getUsers {
     getUsers {
@@ -20,17 +22,24 @@ const GET_USERS = gql`
 `;
 
 const Users = ({ setSelectedUser }) => {
+  const dispatch = useMessageDispatch(); //To dispatch functions
+  const { users } = useMessageState(); //To get actual state
+
   //Fetching users
-  const { loading, data, error } = useQuery(GET_USERS);
+  const { loading } = useQuery(GET_USERS, {
+    onCompleted: (data) => {
+      dispatch({ type: "SET_USERS", payload: data.getUsers });
+    },
+  });
 
   //UserMarkup to validate what info show
   let usersMarkup;
-  if (!data || loading) {
+  if (!users || loading) {
     usersMarkup = <p>Loading..</p>;
-  } else if (data.getUsers.length === 0) {
+  } else if (users.length === 0) {
     usersMarkup = <p>No users have joined yet</p>;
-  } else if (data.getUsers.length > 0) {
-    usersMarkup = data.getUsers.map((user) => (
+  } else if (users.length > 0) {
+    usersMarkup = users.map((user) => (
       <div
         className='p-3 d-flex'
         key={user.username}

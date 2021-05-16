@@ -6,6 +6,11 @@ const MessageDispatchContext = createContext();
 
 const messageReduce = (state, action) => {
   switch (action.type) {
+    case "SET_USERS":
+      return {
+        ...state,
+        users: action.payload,
+      };
     default:
       throw new Error("Action type doesnt exist");
   }
