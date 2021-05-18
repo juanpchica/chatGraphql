@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { Col } from "react-bootstrap";
 
@@ -16,15 +16,32 @@ const GET_MESSAGES = gql`
     }
   }
 `;
+
+const SEND_MESSAGE = gql`
+  mutation sendMessage($to: String!, $content: String!) {
+    sendMessage(to: $to, content: $content) {
+      uuid
+      from
+      to
+      content
+      createdAt
+    }
+  }
+`;
 const Messages = () => {
   const { users } = useMessageState();
   const dispatch = useMessageDispatch();
-
+  const [content, setContent] = useState("");
   const selectedUser = users?.find((u) => u.selected === true);
   const messages = selectedUser?.messages;
 
   const [getMessages, { loading: messagesLoading, data: messagesData }] =
     useLazyQuery(GET_MESSAGES);
+
+  // Mutation graphql for sending
+  const [sendMessage] = useMutation(SEND_MESSAGE, {
+    onError: (err) => console.log(err),
+  });
 
   useEffect(() => {
     if (selectedUser && !selectedUser.messages) {
