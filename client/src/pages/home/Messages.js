@@ -44,11 +44,23 @@ const Messages = () => {
     }
   }, [messagesData]);
 
+  //Function to send messages
+  const submitMessage = (e) => {
+    e.preventDefault();
+
+    if (content.trim() === "" || !selectedUser) return;
+
+    setContent("");
+
+    // mutation for sending the message
+    sendMessage({ variables: { to: selectedUser.username, content } });
+  };
+
   let selectedChatMarkup;
   if (!messages && !messagesLoading) {
-    selectedChatMarkup = <p>Select a friend</p>;
+    selectedChatMarkup = <p className='info-text'>Select a friend</p>;
   } else if (messagesLoading) {
-    selectedChatMarkup = <p>Loading..</p>;
+    selectedChatMarkup = <p className='info-text'>Loading..</p>;
   } else if (messages.length > 0) {
     selectedChatMarkup = messages.map((message, index) => (
       <Fragment key={message.uuid}>
@@ -61,7 +73,11 @@ const Messages = () => {
       </Fragment>
     ));
   } else if (messages.length === 0) {
-    selectedChatMarkup = <p>You are now connected! send your first message!</p>;
+    selectedChatMarkup = (
+      <p className='info-text'>
+        You are now connected! send your first message!
+      </p>
+    );
   }
 
   return (
