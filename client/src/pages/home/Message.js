@@ -5,7 +5,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { useAuthState } from "../../context/auth";
 
-const Message = () => {
+const Message = ({ message }) => {
   const { user } = useAuthState();
   const sent = message.from === user.username;
   const received = !sent;
