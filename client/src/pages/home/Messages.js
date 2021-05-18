@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { gql, useLazyQuery } from "@apollo/client";
-import { Col } from "react-bootstrap";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { Col, Form } from "react-bootstrap";
 
 import { useMessageDispatch, useMessageState } from "../../context/message";
 import Message from "./Message";
@@ -40,6 +40,11 @@ const Messages = () => {
 
   // Mutation graphql for sending
   const [sendMessage] = useMutation(SEND_MESSAGE, {
+    onCompleted: (data) =>
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: { username: selectedUser.username, message: data.sendMessage },
+      }),
     onError: (err) => console.log(err),
   });
 
