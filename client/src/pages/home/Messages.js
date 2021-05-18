@@ -65,8 +65,28 @@ const Messages = () => {
   }
 
   return (
-    <Col xs={10} md={8} className='messages-box d-flex flex-column-reverse'>
-      {selectedChatMarkup}
+    <Col xs={10} md={8}>
+      <div className='messages-box d-flex flex-column-reverse'>
+        {selectedChatMarkup}
+      </div>
+      <div>
+        <Form onSubmit={submitMessage}>
+          <Form.Group className='d-flex align-items-center'>
+            <Form.Control
+              type='text'
+              className='p-4 border-0 message-input rounded-pill bg-secondary'
+              placeholder='Type a message..'
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+            <i
+              className='ml-2 fas fa-paper-plane fa-2x text-primary'
+              onClick={submitMessage}
+              role='button'
+            ></i>
+          </Form.Group>
+        </Form>
+      </div>
     </Col>
   );
 };
