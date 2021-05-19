@@ -32,4 +32,8 @@ module.exports = gql`
     register(registerInput: RegisterInput): User!
     sendMessage(to: String, content: String): Message!
   }
+
+  type Subscription {
+    newMessage: Message!
+  }
 `;
