@@ -40,11 +40,6 @@ const Messages = () => {
 
   // Mutation graphql for sending
   const [sendMessage] = useMutation(SEND_MESSAGE, {
-    onCompleted: (data) =>
-      dispatch({
-        type: "ADD_MESSAGE",
-        payload: { username: selectedUser.username, message: data.sendMessage },
-      }),
     onError: (err) => console.log(err),
   });
 
