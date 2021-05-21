@@ -15,6 +15,7 @@ module.exports = gql`
     from: String!
     content: String!
     createdAt: String!
+    reactions: [Reaction]
   }
 
   type Reaction {
