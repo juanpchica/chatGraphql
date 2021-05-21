@@ -102,13 +102,13 @@ const Messages = () => {
   }
 
   return (
-    <Col xs={10} md={8}>
-      <div className='messages-box d-flex flex-column-reverse'>
+    <Col xs={10} md={8} className='p-0'>
+      <div className='p-3 messages-box d-flex flex-column-reverse'>
         {selectedChatMarkup}
       </div>
-      <div>
+      <div className='px-3 py-2'>
         <Form onSubmit={submitMessage}>
-          <Form.Group className='d-flex align-items-center'>
+          <Form.Group className='m-0 d-flex align-items-center'>
             <Form.Control
               type='text'
               className='p-4 border-0 message-input rounded-pill bg-secondary'

@@ -82,7 +82,7 @@ const Message = ({ message }) => {
         transition={false}
       >
         <div
-          className={classNames("py-2 px-3 rounded-pill", {
+          className={classNames("py-2 px-3 rounded-pill position-relative", {
             "bg-primary": sent,
             "bg-secondary": received,
           })}
