@@ -32,7 +32,6 @@ module.exports = {
 
         return messages;
       } catch (err) {
-        console.log(err);
         throw err;
       }
     },
