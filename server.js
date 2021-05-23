@@ -11,10 +11,12 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: contextMiddleware,
+  subscriptions: { path: "/" },
 });
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`🚀  Server ready at ${url}`);
+  console.log(`🚀 Susbscription ready at ${subscriptionsUrl}`);
 
   //Connect to db with sequelize
   sequelize
